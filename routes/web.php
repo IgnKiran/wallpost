@@ -16,18 +16,19 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
+// only for logged-in users:
+Route::group(['middleware' => 'auth'], function(){
 
-Auth::routes();
+    Route::resource('qrcodes', 'QrcodeController');
 
-Route::get('/home', 'HomeController@index');
+    Route::resource('roles', 'RoleController');
 
-Route::resource('qrcodes', 'QrcodeController');
+    Route::resource('transactions', 'TransactionController');
 
-Route::resource('roles', 'RoleController');
+    Route::resource('users', 'UserController');
+});
 
-Route::resource('transactions', 'TransactionController');
 
-Route::resource('users', 'UserController');
+
