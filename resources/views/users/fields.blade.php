@@ -5,25 +5,13 @@
 </div>
 
 <!-- Role Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('role_id', 'Role Id:') !!}
-    {!! Form::number('role_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Photo Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('photo_id', 'Photo Id:') !!}
-    {!! Form::number('photo_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Is Active Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('is_active', 'Is Active:') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('is_active', false) !!}
-        {!! Form::checkbox('is_active', '1', null) !!} 1
-    </label>
-</div>
+@if(Auth::user()->role_id < 3)
+    <div class="form-group col-sm-6">
+        {!! Form::label('role_id', 'User Level:') !!}
+        {{ Form::select('role_id', $roles, null, ['class' => 'form-control']) }}
+    </div>
+    
+@endif
 
 <!-- Email Field -->
 <div class="form-group col-sm-6">
@@ -37,14 +25,7 @@
     {!! Form::password('password', ['class' => 'form-control']) !!}
 </div>
 
-<!-- Remember Token Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('remember_token', 'Remember Token:') !!}
-    {!! Form::text('remember_token', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('users.index') !!}" class="btn btn-default">Cancel</a>
 </div>

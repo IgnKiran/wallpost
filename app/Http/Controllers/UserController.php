@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Role;
 
 class UserController extends AppBaseController
 {
@@ -100,8 +101,11 @@ class UserController extends AppBaseController
 
             return redirect(route('users.index'));
         }
-
-        return view('users.edit')->with('user', $user);
+        $roles = Role::pluck('name','id')->toArray();
+        // dd($roles);
+        return view('users.edit')
+            ->with('user', $user)
+            ->with('roles', $roles);
     }
 
     /**
@@ -122,10 +126,18 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        $user = $this->userRepository->update($request->all(), $id);
+        if($request['password'] == ''){
+           $input = $request->except('password');
+        } else {
+            $input = $request->all();
+            $input['password'] = bcrypt($request->password);
+        }
+
+        $user = $this->userRepository->update($input, $id);
 
         Flash::success('User updated successfully.');
 
+        // dd($request);
         return redirect(route('users.index'));
     }
 

@@ -74,4 +74,10 @@ class User extends Model
         return $this->hasMany('App\Models\Transaction');
     }
     
+    /**
+     * Get the role of the user.
+     */
+    public function role() {
+        return $this->belongsTo('App\Models\Role');
+    }
 }
